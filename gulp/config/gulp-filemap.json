@@ -53,6 +53,12 @@
       "searchPattern": "**/*.{otf,eot,svg,ttf,woff,woff2}",
       "folderFrom": "./bower_components/font-awesome/fonts/",
       "folderTo": "fonts"
+    },
+    {
+      "name": "Weather-icons",
+      "searchPattern": "**/*.{otf,eot,svg,ttf,woff,woff2}",
+      "folderFrom": "./bower_components/weather-icons/font/",
+      "folderTo": "font"
     }
   ]
 }
