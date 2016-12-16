@@ -1,27 +1,46 @@
 <div id="home">
 
-  <div class="weather">
+  <div class="weather" ng-class="vm.forecastType">
     <header>
-      <h1>{{vm.forecast.hourly.summary}}</h1>
-      <span class="date">{{vm.forecast.hourly.currentDay | date : 'EEEE d MMMM'}}</span>
+      <h1>{{vm.forecast.summary}}</h1>
+      <dark-sky-icon icon="{{ vm.forecast.icon }}" class="icon" ng-if="vm.forecastType === 'hourly'"></dark-sky-icon>
+      <span class="date" ng-if="vm.forecastType === 'hourly'">{{vm.forecast.currentDay | date : 'EEEE d MMMM'}}</span>
     </header>
 
     <div class="wrapper">
       <ol class="hourly">
-        <li ng-repeat="weather in vm.forecast.hourly.data | limitTo: 10" class="card">
+        <li ng-repeat="weather in vm.forecast.data | limitTo: vm.displayLimit" class="card">
 
           <div class="summary">
+
+           <div ng-if="vm.forecastType === 'hourly'">
             <span class="time start">{{ weather.timeStart | date : 'H:mm' }}</span> &ndash;
             <span class="time end">{{ weather.timeEnd | date : 'H:mm' }}</span>
+          </div>
+
+           <div ng-if="vm.forecastType === 'daily'">
+            <span class="time start">{{ weather.timeStart | date : 'EEEE d MMMM' }}</span>
+          </div>
+
             <dark-sky-icon icon="{{ weather.icon }}" class="icon"></dark-sky-icon>
             <div class="description">{{ weather.summary }}</div>
           </div>
 
           <div class="temparature">
             <div class="name">Temperatuur</div>
-            <div class="temparatures">
+            <div class="temparatures" ng-if="vm.forecastType === 'hourly'">
               <span class="main">{{ weather.temperature | number: 1 }} &deg;C</span>
             </div>
+            <div class="temparatures" ng-if="vm.forecastType === 'daily'">
+              <span class="min max">{{ weather.temperatureMin | number: 1 }}  &ndash; {{ weather.temperatureMax | number: 1 }} &deg;C</span>
+            </div>
+          </div>
+
+          <div class="sun" ng-if="vm.forecastType === 'daily'">
+            <div class="name">Zon</div>
+            <span class="time start"><i class="wi wi-sunrise"></i> {{ weather.sunriseTime | date : 'H:mm' }}</span>
+            <span class="time end"><i class="wi wi-sunset"></i> {{ weather.sunsetTime | date : 'H:mm' }}</span>
+
           </div>
 
           <div class="wind">
@@ -30,11 +49,15 @@
             <span class="speed">{{ weather.windSpeed }}</span>
           </div>
 
-
         </li>
       </ol>
     </div>
 
+  </div>
+
+  <div class="controls">
+    <button ng-click="vm.showHourly()" ng-disabled="vm.forecastType === 'hourly'">Komende {{vm.displayLimit}} uur</button>
+    <button ng-click="vm.showDaily()" ng-disabled="vm.forecastType === 'daily'">Komende {{vm.displayLimit}} dagen</button>
   </div>
 
 

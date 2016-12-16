@@ -24,24 +24,45 @@
 
       var _params = {};
       _params.limitToCurrentDay = (params.limitToCurrentDay) || false;
+      _params.offset = (params.offset) || 1;
 
-      var offset = forecast.offset;
-
-      var utcSeconds = forecast.hourly.data[0].time;
+      var utcSeconds = forecast.data[0].time;
       var currentTime = new Date(0);
       currentTime.setUTCSeconds(utcSeconds);
 
-      forecast.hourly.currentDay = moment(currentTime, 'nl').add(offset, 'hour').format();
+      forecast.currentDay = moment(currentTime, 'nl').add(_params.offset, 'hour').format();
 
-      angular.forEach(forecast.hourly.data, function (data) {
+      angular.forEach(forecast.data, function (data) {
 
-        var utcSeconds = data.time;
-        var time = new Date(0);
-        time.setUTCSeconds(utcSeconds);
+        var utcSeconds, time;
+        if (data.hasOwnProperty('time')) {
+          utcSeconds = data.time;
+          time = new Date(0);
+          time.setUTCSeconds(utcSeconds);
 
-        data.timeStart = moment(time, 'nl').add(offset, 'hour').format();
-        data.timeEnd = moment(time, 'nl').add(offset + 1, 'hour').format();
+          data.timeStart = moment(time, 'nl').add(_params.offset, 'hour').format();
+          data.timeEnd = moment(time, 'nl').add(_params.offset + 1, 'hour').format();
+        }
+
+        if (data.hasOwnProperty('sunriseTime')) {
+          utcSeconds = data.sunriseTime;
+          time = new Date(0);
+          time.setUTCSeconds(utcSeconds);
+
+          data.sunriseTime = moment(time, 'nl').add(_params.offset, 'hour').format();
+        }
+
+        if (data.hasOwnProperty('sunsetTime')) {
+          utcSeconds = data.sunsetTime;
+          time = new Date(0);
+          time.setUTCSeconds(utcSeconds);
+
+          data.sunsetTime = moment(time, 'nl').add(_params.offset, 'hour').format();
+        }
+
       });
+
+      $log.info(forecast)
 
       return forecast;
     }
