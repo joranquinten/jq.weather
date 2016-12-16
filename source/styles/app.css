@@ -46,7 +46,7 @@ h3 {
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: auto;
   justify-content: space-between;
 }
 
