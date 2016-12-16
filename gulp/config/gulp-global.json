@@ -1,0 +1,16 @@
+{
+  "cleanBeforeRun": true,
+  "cleanArchiveBeforeDeploy": true,
+  "enableGZIP": false,
+  "enableUglify": true,
+  "enableESLinting": true,
+  "enableESLintLogging": true,
+  "packageModules": false,
+  "transformForAngular": true,
+  "testAfterBuild": false,
+  "enableUserefOnBuild": true,
+  "enableRevisioning": true,
+  "failOnBuildErrors": true,
+  "minifyHTML": false,
+  "templateCache": true
+}

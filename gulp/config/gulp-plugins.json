@@ -1,0 +1,34 @@
+{
+  "stylelint": {
+    "configFile": "./gulp/config/style-lint.json"
+  },
+  "autoprefixer": {
+    "browsers": ["ie 8-10", "Last 2 Chrome versions"]
+  },
+  "minifyCSS": {
+    "compatibility": "ie8"
+  },
+  "eslint": {
+    "configFile": "./es-lint.json"
+  },
+  "minifyHTML": {
+    "collapseWhitespace": true,
+    "removeComments": true,
+    "minifyCSS": true
+  },
+  "gzipOptions": {
+    "append": false,
+    "extension": "gz",
+    "threshold": "1kb",
+    "level": 9
+  },
+  "browserSync": {
+    "proxy": "localhost/project-boilerplate/?make-sure-you-add-project-to-nginx",
+    "browsers": []
+  },
+  "karma": {
+    "configFile": "\\plugins\\unit.karma.conf.js",
+    "browsers": ["PhantomJS"]
+  },
+  "revOptions": {}
+}

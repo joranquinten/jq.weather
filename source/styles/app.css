@@ -1,0 +1,118 @@
+a,
+a[ui-sref],
+.clickable {
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  background: #43cea2;
+  background: -webkit-linear-gradient(to left, #43cea2, #185a9d);
+  background: linear-gradient(to left, #43cea2, #185a9d);
+  text-align: center;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Roboto';
+  font-weight: 100;
+}
+
+.weather header {
+  margin: 1em 0;
+  color: rgb(255, 255, 255);
+}
+
+.weather header .date {
+  font-weight: 100;
+}
+
+.weather header h1 {
+  margin: 0;
+  font-size: 4vh;
+}
+
+.weather .hourly {
+  margin: 1em 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow-x: hidden;
+  justify-content: space-between;
+}
+
+.weather .hourly li {
+  margin: 0;
+  flex: 1 0 auto;
+  max-width: 20vw;
+  min-width: 130px;
+}
+
+.weather .hourly li > div {
+  padding: 1em 0;
+}
+
+.weather .hourly li > * + * {
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.weather .card {
+  padding: 1em;
+  text-align: center;
+}
+
+.weather .card .name {
+  font-size: 1.3vh;
+  letter-spacing: 0.2vh;
+  margin-bottom: 0.8vh;
+}
+
+.weather .card .summary .icon {
+  font-size: 4vh;
+  display: block;
+}
+
+.weather .card .summary .description {
+  display: block;
+}
+
+.weather .card .temparatures {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.weather .card .temparatures > * {
+  padding: 1vh 0;
+}
+
+.weather .card .temparatures .main {
+  font-size: 4vh;
+  display: block;
+  flex: 2 0 auto;
+  width: 100%;
+  padding-bottom: 0;
+}
+
+.weather .card .temparatures .min,
+.weather .card .temparatures .max {
+  flex: 1 0 auto;
+  font-size: 1.4vh;
+}
+
+.weather .card .wind .bearing .arrow {
+  font-size: 4vh;
+  display: block;
+  margin-bottom: 1.4vh;
+}

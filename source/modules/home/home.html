@@ -1,0 +1,42 @@
+<div id="home">
+
+  <div class="weather">
+    <header>
+      <h1>{{vm.forecast.hourly.summary}}</h1>
+      <span class="date">{{vm.forecast.hourly.currentDay | date : 'EEEE d MMMM'}}</span>
+    </header>
+
+    <div class="wrapper">
+      <ol class="hourly">
+        <li ng-repeat="weather in vm.forecast.hourly.data | limitTo: 10" class="card">
+
+          <div class="summary">
+            <span class="time start">{{ weather.timeStart | date : 'H:mm' }}</span> &ndash;
+            <span class="time end">{{ weather.timeEnd | date : 'H:mm' }}</span>
+            <dark-sky-icon icon="{{ weather.icon }}" class="icon"></dark-sky-icon>
+            <div class="description">{{ weather.summary }}</div>
+          </div>
+
+          <div class="temparature">
+            <div class="name">Temperatuur</div>
+            <div class="temparatures">
+              <span class="main">{{ weather.temperature | number: 1 }} &deg;C</span>
+            </div>
+          </div>
+
+          <div class="wind">
+            <div class="name">Wind</div>
+            <span class="bearing"><span class="arrow wi wi-wind towards-0-deg" style="transform: rotate({{weather.windBearing + 180}}deg);"></span></span>
+            <span class="speed">{{ weather.windSpeed }}</span>
+          </div>
+
+
+        </li>
+      </ol>
+    </div>
+
+  </div>
+
+
+
+</div>
