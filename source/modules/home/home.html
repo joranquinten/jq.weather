@@ -5,6 +5,7 @@
       <h1>{{vm.forecast.summary}}</h1>
       <dark-sky-icon icon="{{ vm.forecast.icon }}" class="icon" ng-if="vm.forecastType === 'hourly'"></dark-sky-icon>
       <span class="date" ng-if="vm.forecastType === 'hourly'">{{vm.forecast.currentDay | date : 'EEEE d MMMM'}}</span>
+      <div class="location" ng-if="vm.forecastLocation">{{vm.forecastLocation.city}}, {{vm.forecastLocation.region}}</div>
     </header>
 
     <div class="wrapper">
@@ -13,14 +14,14 @@
 
           <div class="summary">
 
-           <div ng-if="vm.forecastType === 'hourly'">
-            <span class="time start">{{ weather.timeStart | date : 'H:mm' }}</span> &ndash;
-            <span class="time end">{{ weather.timeEnd | date : 'H:mm' }}</span>
-          </div>
+            <div ng-if="vm.forecastType === 'hourly'">
+              <span class="time start">{{ weather.timeStart | date : 'H:mm' }}</span> &ndash;
+              <span class="time end">{{ weather.timeEnd | date : 'H:mm' }}</span>
+            </div>
 
-           <div ng-if="vm.forecastType === 'daily'">
-            <span class="time start">{{ weather.timeStart | date : 'EEEE d MMMM' }}</span>
-          </div>
+            <div ng-if="vm.forecastType === 'daily'">
+              <span class="time start">{{ weather.timeStart | date : 'EEEE d MMMM' }}</span>
+            </div>
 
             <dark-sky-icon icon="{{ weather.icon }}" class="icon"></dark-sky-icon>
             <div class="description">{{ weather.summary }}</div>

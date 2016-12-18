@@ -62,8 +62,6 @@
 
       });
 
-      $log.info(forecast)
-
       return forecast;
     }
 

@@ -22,60 +22,64 @@
     ///////////////
 
     function activate() {
-      showHourly ();
+      showHourly();
     }
 
-    function showHourly () {
+    function showHourly() {
       vm.forecastType = 'hourly';
-      _getHourlyForecast ();
+      _getHourlyForecast();
     }
 
-    function showDaily () {
+    function showDaily() {
       vm.forecastType = 'daily';
-      _getDailyForecast ();
+      _getDailyForecast();
     }
 
-    function _getHourlyForecast () {
+    function _getHourlyForecast() {
 
       locationService.getGeolocation().then(function (position) {
 
-          darkSky.getHourlyForecast(position.latitude, position.longitude)
-            .then(function (response) {
+        darkSky.getHourlyForecast(position.latitude, position.longitude)
+          .then(function (response) {
 
-              var responseFormatted = weatherService.formatForecast(response.hourly, {
-                limitToCurrentDay: false,
-                offset: response.offset
-              });
-
-              vm.forecast = responseFormatted;
-            }, function (response) {
-              $log.warn(response);
+            var responseFormatted = weatherService.formatForecast(response.hourly, {
+              limitToCurrentDay: false,
+              offset: response.offset
             });
-        }, function (response) {
-          $log.error(response);
-        });
+
+            locationService.getReverseGeolocation(position).then(function (response) {
+              vm.forecastLocation = response;
+            });
+
+            vm.forecast = responseFormatted;
+          }, function (response) {
+            $log.warn(response);
+          });
+      }, function (response) {
+        $log.error(response);
+      });
 
     }
 
-    function _getDailyForecast () {
+    function _getDailyForecast() {
 
       locationService.getGeolocation().then(function (position) {
         $log.info(position);
-          darkSky.getDailyForecast(position.latitude, position.longitude)
-            .then(function (response) {
+        darkSky.getDailyForecast(position.latitude, position.longitude)
+          .then(function (response) {
 
-              var responseFormatted = weatherService.formatForecast(response.daily, {
-                limitToCurrentDay: false,
-                offset: response.offset
-              });
-
-              vm.forecast = responseFormatted;
-            }, function (response) {
-              $log.warn(response);
+            var responseFormatted = weatherService.formatForecast(response.daily, {
+              limitToCurrentDay: false,
+              offset: response.offset
             });
-        }, function (response) {
-          $log.error(response);
-        });
+
+            vm.forecast = responseFormatted;
+          }, function (response) {
+            $log.warn(response);
+          });
+      }, function (response) {
+        $log.error(response);
+      });
     }
 
   }

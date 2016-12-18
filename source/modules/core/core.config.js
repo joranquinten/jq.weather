@@ -29,7 +29,7 @@
     }
 
     function setDarkSkyConfig() {
-      darkSkyProvider.setApiKey('ec8f74ce8161a69abde344251cbc2146');
+      darkSkyProvider.setApiKey(appConfig.SERVICES.DARKSKYNET.API_KEY);
       darkSkyProvider.setUnits('si');
       darkSkyProvider.setLanguage('nl')
     }

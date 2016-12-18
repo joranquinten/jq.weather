@@ -7,30 +7,19 @@
     .factory('locationService', locationService);
 
   /* @ngInject */
-  function locationService($http, $q, $geolocation, $log, appConfig) {
+  function locationService($http, $q, $geolocation, $httpParamSerializer, $log, appConfig) {
 
     var _userDefinedGeolocation = {};
 
     var service = {
       getGeolocation: getGeolocation,
-      setGeolocation: setGeolocation
+      setGeolocation: setGeolocation,
+      getReverseGeolocation: getReverseGeolocation
     };
 
     return service;
 
     ////////////////
-
-    function setGeolocation(coordinates) {
-
-      // Needs to have valid attributes
-      if (coordinates.hasOwnProperty('latitude') && coordinates.hasOwnProperty('longitude')) {
-        _userDefinedGeolocation = coordinates;
-      } else {
-        // Empty object
-        _userDefinedGeolocation = {};
-      }
-
-    }
 
     function getGeolocation() {
 
@@ -77,6 +66,81 @@
           }
 
         });
+      }
+
+      return deferred.promise;
+
+    }
+
+
+    function setGeolocation(coordinates) {
+
+      // Needs to have valid attributes
+      if (coordinates.hasOwnProperty('latitude') && coordinates.hasOwnProperty('longitude')) {
+        _userDefinedGeolocation = coordinates;
+      } else {
+        // Empty object
+        _userDefinedGeolocation = {};
+      }
+
+    }
+
+    function getReverseGeolocation(coordinates) {
+
+      var deferred = $q.defer();
+
+      if (coordinates) {
+        // make the call
+
+        var _params = {
+          latlng: coordinates.latitude + ',' + coordinates.longitude,
+          key: appConfig.SERVICES.GOOGLE.API_KEY,
+          language: 'nl',
+          region: 'NL'
+        }
+
+        var _qs = $httpParamSerializer(_params);
+
+        $http.get(appConfig.SERVICES.GOOGLE.API_ADDRESS + '?' + _qs)
+          .then(function (response) {
+
+            var _locations = response.data.results;
+
+            var address = {};
+
+            angular.forEach(_locations, function (_location) {
+              angular.forEach(_location.address_components, function (_address) {
+
+                if (_address.types.indexOf('route') > -1 && !address.street) {
+                  address.street = _address.long_name;
+                }
+
+                if (_address.types.indexOf('administrative_area_level_2') > -1 && !address.city) {
+                  address.city = _address.long_name;
+                }
+
+                if (_address.types.indexOf('administrative_area_level_1') > -1 && !address.region) {
+                  address.region = _address.long_name;
+                }
+
+                if (_address.types.indexOf('country') > -1 && !address.country) {
+                  address.country = _address.long_name;
+                }
+
+              });
+
+            });
+
+            deferred.resolve(address);
+
+          }, function () {
+
+            deferred.reject('Geolocation not supported, fallback failed to retrieve geolocation.');
+
+          });
+
+      } else {
+        deferred.reject('No valid coordinates supplied');
       }
 
       return deferred.promise;
