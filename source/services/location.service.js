@@ -134,7 +134,6 @@
 
             });
 
-
             deferred.resolve(address);
 
           }, function () {
