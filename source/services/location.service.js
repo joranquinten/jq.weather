@@ -104,32 +104,36 @@
         $http.get(appConfig.SERVICES.GOOGLE.API_ADDRESS + '?' + _qs)
           .then(function (response) {
 
-            var _locations = response.data.results;
-
             var address = {};
 
-            angular.forEach(_locations, function (_location) {
-              angular.forEach(_location.address_components, function (_address) {
+            // Remove bloat from response
+            var address_components = response.data.results.map(function (elem) {
+              return (elem.address_components) ? elem.address_components : false;
+            });
 
-                if (_address.types.indexOf('route') > -1 && !address.street) {
-                  address.street = _address.long_name;
-                }
+            // Flatten one level:
+            address_components = [].concat.apply([], address_components);
 
-                if (_address.types.indexOf('administrative_area_level_2') > -1 && !address.city) {
-                  address.city = _address.long_name;
-                }
+            angular.forEach(address_components, function (_address) {
 
-                if (_address.types.indexOf('administrative_area_level_1') > -1 && !address.region) {
-                  address.region = _address.long_name;
-                }
+              if (_address.types.indexOf('route') > -1 && !address.street) {
+                address.street = _address.long_name;
+              }
 
-                if (_address.types.indexOf('country') > -1 && !address.country) {
-                  address.country = _address.long_name;
-                }
+              if (_address.types.indexOf('administrative_area_level_2') > -1 && !address.city) {
+                address.city = _address.long_name;
+              }
 
-              });
+              if (_address.types.indexOf('administrative_area_level_1') > -1 && !address.region) {
+                address.region = _address.long_name;
+              }
+
+              if (_address.types.indexOf('country') > -1 && !address.country) {
+                address.country = _address.long_name;
+              }
 
             });
+
 
             deferred.resolve(address);
 
